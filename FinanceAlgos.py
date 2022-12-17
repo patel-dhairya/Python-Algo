@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 
-def bsm_mce_european(s0, k, t, r: float, sigma: float, i = 10000) -> float:
+def bsm_mce_european(s0, k, t, r: float, sigma: float, i=10000) -> float:
     """
     Black-Scholes-Merton model Monte Carlo valuation of European call option
 
@@ -15,10 +15,15 @@ def bsm_mce_european(s0, k, t, r: float, sigma: float, i = 10000) -> float:
     :return: European Call option
     """
     random_numbers = np.random.standard_normal(i)
-    st = s0*np.exp((r-0.5*sigma**2)*t + math.sqrt(t)*sigma*random_numbers)      # index values at maturity
-    ht = np.maximum(st-k, 0)        # all inner values of option at maturity level
-    c0 = math.exp(-r*t)*np.mean(ht)     # monte carlo estimator
+
+    # index values at maturity
+    st = s0 * np.exp((r - 0.5 * sigma ** 2) * t +
+                     math.sqrt(t) * sigma * random_numbers)
+
+    # inner values of option at maturity level
+    ht = np.maximum(st - k, 0)
+
+    # monte carlo estimator
+    c0 = math.exp(-r * t) * np.mean(ht)
 
     return "%5.3f" % c0
-
-
