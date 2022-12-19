@@ -55,3 +55,14 @@ class MyHeap:
                 self.heap[l] = node
                 self.rank[node] = l
                 return
+
+    def update_value(self, old, new):
+        old_index = self.rank[old]
+        del self.rank[old]
+        self.heap[old_index] = new
+        self.rank[new] = old_index
+        if old<new:
+            self.down_heapify(old_index)
+        else:
+            self.up_heapify(old_index)
+            
