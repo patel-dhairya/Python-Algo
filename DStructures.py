@@ -65,4 +65,3 @@ class MyHeap:
             self.down_heapify(old_index)
         else:
             self.up_heapify(old_index)
-            
