@@ -74,7 +74,7 @@ class Node:
 
     def __init__(self, data):
         """
-        Each node will be connected to other nodes with help of previous and next to complete double linked list
+        Each node will be connected to other vertices with help of previous and next to complete double linked list
         :param data: value stored in node
         """
         self.prev = None
@@ -125,3 +125,35 @@ class DoubleLL:
         if self.head is not None:
             self.head.prev = new_node
         self.head = new_node
+
+
+class Graph:
+    def __init__(self):
+        self.neighbor = []
+        self.weight = []
+        self.name2vertices = {}
+        self.vertices2name = []
+
+    def __len__(self) -> int:
+        return len(self.vertices2name)
+
+    def __getitem__(self, item):
+        return self.neighbor[item]
+
+    def add_vertex(self, data) -> str:
+        assert data not in self.vertices2name
+        self.name2vertices[data] = len(self.name2vertices)
+        self.vertices2name.append(data)
+        self.neighbor.append([])
+        self.weight.append({})
+        return f"{data} added to Graph"
+
+    def add_arc(self, point_a, point_b, weight_ab=None):
+        point_a = self.name2vertices[point_a]
+        point_b = self.name2vertices[point_b]
+        self.neighbor[point_a].append(point_b)
+        self.weight[point_a][point_b] = weight_ab
+
+    def add_edge(self, point_a, point_b, weight_ab=None):
+        self.add_arc(point_a, point_b, weight_ab)
+        self.add_arc(point_b, point_a, weight_ab)
