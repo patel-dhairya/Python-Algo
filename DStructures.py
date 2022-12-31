@@ -138,7 +138,8 @@ class Graph:
         return len(self.vertices2name)
 
     def __getitem__(self, item):
-        return self.neighbor[item]
+        assert item in self.name2vertices, "Vertex must be part of Graph"
+        return self.neighbor[self.name2vertices[item]]
 
     def add_vertex(self, data) -> str:
         assert data not in self.vertices2name
@@ -157,3 +158,15 @@ class Graph:
     def add_edge(self, point_a, point_b, weight_ab=None):
         self.add_arc(point_a, point_b, weight_ab)
         self.add_arc(point_b, point_a, weight_ab)
+
+
+# if __name__ == "__main__":
+#     g = Graph()
+#     g.add_vertex('a')
+#     g.add_vertex('b')
+#     g.add_vertex('c')
+#     g.add_edge('a', 'b')
+#     g.add_arc('a', 'c')
+#     print(g.name2vertices)
+#     print(g.neighbor)
+#     print(g['d'])
