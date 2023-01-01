@@ -19,3 +19,14 @@ def fib(n: int) -> int:
     for i in range(2, n+1):
         fibs[i % 2] = fibs[0] + fibs[1]
     return fibs[n % 2]
+
+
+def gcd(a: int, b:int) -> int:
+    """
+    Returns greatest common divisor of two number
+    :param a: int
+    :param b: int
+    :return: GCD of a and b
+    """
+    return a if b == 0 else gcd(b, a % b)
+
