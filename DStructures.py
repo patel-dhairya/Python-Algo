@@ -1,3 +1,45 @@
+class Stack:
+    """Stack data structure implementation using List """
+
+    def __init__(self):
+        """
+        Initialise empty stack
+        """
+        self._stack = []
+
+    def __len__(self) -> int:
+        """
+        Return number of elements in stack
+        """
+        return len(self._stack)
+
+    def is_empty(self):
+        """
+        Check if stack is empty
+        """
+        return len(self._stack) == 0
+
+    def push(self, e):
+        """
+        Add element e to top of stack/end of list
+        """
+        self._stack.append(e)
+
+    def top(self):
+        """
+        Return top element of the stack
+        """
+        assert self.is_empty() is False, "Cannot get top element of empty stack"
+        return self._stack[-1]
+
+    def pop(self):
+        """
+        Remove the top element of the stack
+        :return: Top element of stack
+        """
+        assert self.is_empty() is False, "Cannot remove element from empty stack"
+        return self._stack.pop()
+
 class MyHeap:
     def __init__(self, nodes):
         self.heap = [None]
@@ -158,7 +200,6 @@ class Graph:
     def add_edge(self, point_a, point_b, weight_ab=None):
         self.add_arc(point_a, point_b, weight_ab)
         self.add_arc(point_b, point_a, weight_ab)
-
 
 # if __name__ == "__main__":
 #     g = Graph()
