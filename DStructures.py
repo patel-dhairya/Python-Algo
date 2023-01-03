@@ -40,6 +40,81 @@ class Stack:
         assert self.is_empty() is False, "Cannot remove element from empty stack"
         return self._stack.pop()
 
+
+class Queue:
+    """ FIFO data structure Queue implemented with circular list """
+    _DEFAULT = 8  # initial capacity of new queue
+
+    def __init__(self):
+        """
+        Initialise empty queue
+        """
+        self._queue = [None] * Queue._DEFAULT
+        self._length = 0  # Size of queue
+        self._front_start = 0  # Index referencing to front element of queue
+
+    def __len__(self) -> int:
+        """
+        Returns number of elements in queue
+        """
+        return self._length
+
+    def is_empty(self) -> bool:
+        """
+        Check if queue is empty
+        """
+        return self._length == 0
+
+    def first(self):
+        """
+        Return front element of queue if it exists else raise error
+        """
+        assert self.is_empty() is False, "Cannot get front element of empty queue"
+        return self._queue[self._front_start]
+
+    def _change_size(self, new_length: int) -> None:
+        """
+        Create a new queue with given new length
+        :param new_length: New size of list for queue
+        :return: None
+        """
+        old_queue = self._queue
+        self._queue = [None] * new_length
+        start = self._front_start
+
+        for i in range(self._length):
+            self._queue[i] = old_queue[start]
+            start = (start + 1) % len(old_queue)
+        self._front_start = 0
+
+    def dequeue(self):
+        """
+        Remove and return front element of queue if it exists else raise error
+        """
+        assert self.is_empty() is False, "Cannot remove front element of empty queue"
+        answer = self._queue[self._front_start]
+        self._queue[self._front_start] = None
+        self._front_start = (self._front_start + 1) % len(self._queue)  # Modulo helps with circular array index
+        self._length -= 1
+
+        # If number of elements in queue are less than 4th of current array size used by queue, reduce array to half
+        # of its current size
+        if len(self._queue) // 4 > self._length > 0:
+            self._change_size(len(self._queue) // 2)
+
+        return answer
+
+    def enqueue(self, e):
+        """
+        Add element e to back of queue
+        """
+        if len(self._queue) == self._length:
+            self._change_size(len(self._queue) * 2)
+        current_empty_index = (self._front_start + self._length) % len(self._queue)
+        self._queue[current_empty_index] = e
+        self._length += 1
+
+
 class MyHeap:
     def __init__(self, nodes):
         self.heap = [None]
