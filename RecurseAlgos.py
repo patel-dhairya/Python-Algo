@@ -56,3 +56,4 @@ class Ruler:
         for num in range(1, 1 + self._centimeters):
             recurse_interval(self._dash_length - 1)
             line_draw(self._dash_length, str(num))
+
