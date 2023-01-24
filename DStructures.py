@@ -94,11 +94,12 @@ class Queue:
         assert self.is_empty() is False, "Cannot remove front element of empty queue"
         answer = self._queue[self._front_start]
         self._queue[self._front_start] = None
-        self._front_start = (self._front_start + 1) % len(self._queue)  # Modulo helps with circular array index
+        self._front_start = (self._front_start + 1) % len(
+            self._queue)  # Modulo helps with circular array index
         self._length -= 1
 
-        # If number of elements in queue are less than 4th of current array size used by queue, reduce array to half
-        # of its current size
+        # If number of elements in queue are less than 4th of current array size used by queue,
+        # reduce array to half of its current size
         if len(self._queue) // 4 > self._length > 0:
             self._change_size(len(self._queue) // 2)
 
@@ -113,6 +114,81 @@ class Queue:
         current_empty_index = (self._front_start + self._length) % len(self._queue)
         self._queue[current_empty_index] = e
         self._length += 1
+
+
+class BST:
+    """
+    Binary search tree is a tree where each node has up to two children.
+    Addition condition is that values in left subtree of node are always less than value of that
+    node of tree and values in right subtree of node are always greater than value of that node.
+    Left and right subtrees of node are also always binary tree
+    """
+
+    class __Node:
+        """
+        Node class represent node of binary search tree.
+        """
+
+        def __init__(self, data, left=None, right=None):
+            self._data = data
+            self._left = left
+            self._right = right
+
+        def get_data(self):
+            return self._data
+
+        def get_left(self):
+            return self._left
+
+        def get_right(self):
+            return self._right
+
+        def set_data(self, data):
+            self._data = data
+
+        def set_left(self, left_node):
+            self._left = left_node
+
+        def set_right(self, right_node):
+            self._right = right_node
+
+        def __iter__(self):
+            """
+            Iterate values with ascending order
+            """
+            if self._left is not None:
+                for node in self._left:
+                    yield node
+
+            yield self._data
+
+            if self._right is not None:
+                for node in self._right:
+                    yield node
+
+    def __init__(self):
+        self._root = None
+
+    def add(self, data):
+        """
+        Create a node with given data and add it to appropriate location in Binary search tree
+        """
+
+        def __add(root: BST.__Node, new_data) -> BST.__Node:
+            if root is None:
+                return BST.__Node(new_data)
+            if root.get_data() > new_data:
+                root.set_left(__add(root.get_left(), new_data))
+            else:
+                root.set_right(__add(root.get_right(), new_data))
+            return root
+
+        self._root = __add(self._root, data)
+
+    def __iter__(self):
+        if self._root is not None:
+            return self._root.__iter__()
+        return [].__iter__()
 
 
 class MyHeap:
@@ -160,7 +236,8 @@ class MyHeap:
         while True:
             left_child_index = 2 * l
             right_child_index = left_child_index + 1
-            if right_child_index < size and self.heap[right_child_index] < node and self.heap[right_child_index] < \
+            if right_child_index < size and self.heap[right_child_index] < node and self.heap[
+                right_child_index] < \
                     self.heap[left_child_index]:
                 self.heap[l] = self.heap[right_child_index]
                 self.rank[self.heap[right_child_index]] = l
@@ -185,13 +262,14 @@ class MyHeap:
             self.up_heapify(old_index)
 
 
-#  ----------------------------------------------Double Linked List--------------------------------------------------
+#  -Double Linked List-
 class Node:
     # Node class for double linked list data structure
 
     def __init__(self, data):
         """
-        Each node will be connected to other vertices with help of previous and next to complete double linked list
+        Each node will be connected to other vertices with help of previous and next to complete
+        double linked list
         :param data: value stored in node
         """
         self.prev = None
@@ -201,11 +279,11 @@ class Node:
 
 class DoubleLL:
     def __init__(self):
-        "Each Dobule Linked list will have a head. If head is none then Linked List is empty"
+        """Each Double Linked list will have a head. If head is none then Linked List is empty"""
         self.head = None
 
     def __len__(self) -> int:
-        "Return length of double linked list"
+        """Return length of double linked list"""
         i = 0
         temp = self.head
         while temp is not None:
@@ -276,13 +354,9 @@ class Graph:
         self.add_arc(point_a, point_b, weight_ab)
         self.add_arc(point_b, point_a, weight_ab)
 
+
+def main():
+    pass
+
 # if __name__ == "__main__":
-#     g = Graph()
-#     g.add_vertex('a')
-#     g.add_vertex('b')
-#     g.add_vertex('c')
-#     g.add_edge('a', 'b')
-#     g.add_arc('a', 'c')
-#     print(g.name2vertices)
-#     print(g.neighbor)
-#     print(g['d'])
+#     main()
